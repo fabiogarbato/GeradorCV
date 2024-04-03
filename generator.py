@@ -48,20 +48,20 @@ def generate_cv():
     educacao = f"Graduação: {data['graduacao']}\nEnsino Médio: {data['ensino_medio']}"
     pdf.chapter_body(educacao)
 
-    pdf.chapter_title('Sobre')
+    pdf.chapter_title('Resumo Profissional')
     sobre_descricao = ""
     for sobre in data['sobre']:
         sobre_descricao += f"{sobre['descricao']}\n"
     pdf.chapter_body(sobre_descricao)
 
     pdf.chapter_title('Experiência Profissional')
-    experiencia = ""
     for exp in data['experiencia']:
-        experiencia += f"{exp['titulo']} - {exp['empresa']} ({exp['inicio']} - {exp['fim']})\n"
-    for subtitulo in exp['subtitulo']:
-        experiencia += f"    {subtitulo}\n"
-    experiencia += "\n"
-    pdf.chapter_body(experiencia)
+        pdf.chapter_subtitle(exp['empresa'])
+        for cargo in exp['cargos']:
+            experiencia = f"{cargo['titulo']} - {cargo['inicio']} - {cargo['fim']}\n"
+            for subtitulo in cargo['subtitulo']:
+                experiencia += f"    {subtitulo}\n"
+            pdf.chapter_body(experiencia)
 
     pdf.chapter_title('Habilidades')
     habilidades = '\n'.join(data['habilidades'])
