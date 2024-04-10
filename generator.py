@@ -41,7 +41,7 @@ def generate_cv():
     pdf.set_right_margin(10)
 
     pdf.chapter_title('Informações Pessoais')
-    info_pessoais = f"Nome: {data['nome']}\nIdade: {data['idade']}\nEmail: {data['email']}\nTelefone: {data['telefone']}"
+    info_pessoais = f"Nome: {data['nome']}\nIdade: {data['idade']}\nCidade: {data['cidade']}\nEmail: {data['email']}\nTelefone: {data['telefone']}"
     pdf.chapter_body(info_pessoais)
 
     pdf.chapter_title('Educação')
