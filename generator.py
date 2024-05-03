@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 class PDF(FPDF):
     def header(self):
-        self.set_font('Arial', 'B', 14)
+        self.set_font('Arial', 'B', 12)
         self.cell(0, 10, 'Curriculum Vitae', 0, 1, 'C')
 
     def footer(self):
