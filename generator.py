@@ -5,34 +5,33 @@ app = Flask(__name__)
 
 class PDF(FPDF):
     def header(self):
-        self.set_font('Arial', 'B', 14)
-        self.cell(0, 10, self.lang_titles['cv_title'], 0, 1, 'C')
+        self.set_font('Arial', 'B', 12)
+        self.cell(0, 8, 'Resume', 0, 1, 'C')
 
     def footer(self):
         self.set_y(-15)
         self.set_font('Arial', 'I', 8)
-        self.cell(0, 10, self.lang_titles['page_label'] + str(self.page_no()), 0, 0, 'C')
 
     def chapter_title(self, label):
-        self.set_fill_color(200, 220, 255)
-        self.set_font('Arial', 'B', 12)
-        self.cell(0, 10, label, 0, 1, 'L', 1)
-        self.ln(2)
+        self.set_fill_color(220, 220, 220)  
+        self.set_font('Arial', 'B', 11)
+        self.cell(0, 8, label, 0, 1, 'L', 1)
+        self.ln(1)
 
     def chapter_subtitle(self, subtitle):
-        self.set_font('Arial', 'B', 10)
-        self.cell(0, 6, subtitle, 0, 1)
+        self.set_font('Arial', 'B', 11)
+        self.cell(0, 5, subtitle, 0, 1)
         self.ln(1)
 
     def chapter_body(self, body):
-        self.set_font('Arial', '', 9)
-        self.multi_cell(0, 5, body)
+        self.set_font('Arial', '', 8)
+        self.multi_cell(0, 4, body)
         self.ln()
 
 @app.route('/generate-cv', methods=['POST'])
 def generate_cv():
     data = request.json
-    language = data.get('language', 'en')  # Default to English if not specified
+    language = data.get('language', 'en')  
 
     # Define titles and field names based on language
     lang_keys = {
@@ -64,7 +63,8 @@ def generate_cv():
     pdf.chapter_body(personal_info)
 
     pdf.chapter_title(lang_keys['education'])
-    education = f"College: {data.get('college', '')}\nHigh School: {data.get('high_school', '')}"
+    education_data = data.get('education', {})
+    education = "\n".join([f"{key.replace('_', ' ').title()}: {value}" for key, value in education_data.items()])
     pdf.chapter_body(education)
 
     pdf.chapter_title(lang_keys['professional_summary'])
